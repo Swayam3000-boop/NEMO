@@ -1,0 +1,642 @@
+/*************************************************************
+  Blynk is a platform with iOS and Android apps to control
+  ESP32, Arduino, Raspberry Pi and the likes over the Internet.
+  You can easily build mobile and web interfaces for any
+  projects by simply dragging and dropping widgets.
+
+    Downloads, docs, tutorials: https://www.blynk.io
+    Sketch generator:           https://examples.blynk.cc
+    Blynk community:            https://community.blynk.cc
+    Follow us:                  https://www.fb.com/blynkapp
+                                https://twitter.com/blynk_app
+
+  Blynk library is licensed under MIT license
+  This example code is in public domain.
+
+ *************************************************************
+  This example runs directly on ESP32 chip.
+
+  NOTE: This requires ESP32 support package:
+    https://github.com/espressif/arduino-esp32
+
+  Please be sure to select the right ESP32 module
+  in the Tools -> Board menu!
+
+  Change WiFi ssid, pass, and Blynk auth token to run :)
+  Feel free to apply it to any other example. It's simple!
+ *************************************************************/
+
+/* Comment this out to disable prints and save space */
+#define BLYNK_PRINT Serial
+
+/* Fill in information from Blynk Device Info here */
+#define BLYNK_TEMPLATE_ID "TMPL3uRSfpCuE"
+#define BLYNK_TEMPLATE_NAME "Nemo"
+#define BLYNK_AUTH_TOKEN "B3opN7JG1wYvAcQeJRFHCpPuScvzjXXR"
+
+#include <ESP32Servo.h>
+#include <WiFi.h>
+#include <WiFiClient.h>
+#include <BlynkSimpleEsp32.h>
+
+// Your WiFi credentials.
+// Set password to "" for open networks.
+char ssid[] = "IEDC LAB 505";
+char pass[] = "Iedclab505";
+
+const int numServo=10;
+const int servoPin[numServo]={13,12,14,27,26,25,33,32,22,21};
+int a=0,f=0,fd=0,bk=0,rt=0,lt=0,b=0;
+int maxval=40+a;
+int minval=0+a;
+const int d=60;
+const int d1=80;
+
+Servo servo1;
+Servo servo2;
+Servo servo3;
+Servo servo4;
+Servo servo5;
+Servo servo6;
+Servo servo7;
+Servo servo8;                                                                                                                                                     
+Servo servo9;
+Servo servo10;
+
+void rstfront(){
+    servo1.write(maxval);
+  delay(d1);
+    servo2.write(maxval);
+  delay(d1);
+    servo3.write(maxval);
+  delay(d1);
+    servo4.write(maxval);
+    servo1.write(minval);
+  delay(d1);
+    servo5.write(maxval);
+    servo2.write(minval);
+  delay(d1);
+    servo6.write(maxval);
+    servo3.write(minval);
+  delay(d1);
+    servo7.write(maxval);
+    servo4.write(minval);
+  delay(d1);
+    servo8.write(maxval);
+    servo5.write(minval);
+  delay(d1);
+    servo9.write(maxval);
+    servo6.write(minval);
+  delay(d1);
+    servo10.write(maxval);
+    servo7.write(minval);
+  delay(d1);
+    servo8.write(minval);
+  delay(d1);
+    servo9.write(minval);
+  delay(d1);
+    servo10.write(minval);
+  delay(d1);
+}
+
+void rstback(){
+  servo10.write(maxval);
+  delay(d1);
+    servo9.write(maxval);
+  delay(d1);
+    servo8.write(maxval);
+  delay(d1);
+    servo7.write(maxval);
+  delay(d1);
+    servo6.write(maxval);
+    servo10.write(minval);
+  delay(d1);
+    servo5.write(maxval);
+    servo9.write(minval);
+  delay(d1);
+    servo4.write(maxval);
+    servo8.write(minval);
+  delay(d1);
+    servo3.write(maxval);
+    servo7.write(minval);
+  delay(d1);
+    servo2.write(maxval);
+    servo6.write(minval);
+  delay(d1);
+    servo1.write(maxval);
+    servo5.write(minval);
+  delay(d1);
+    servo4.write(minval);
+  delay(d1);
+    servo3.write(minval);
+  delay(d1);
+    servo2.write(minval);
+  delay(d1);
+    servo1.write(minval);
+  delay(d1);
+}
+
+void forward(){
+  
+  while(fd==1){
+    Blynk.run();
+
+    servo7.write(maxval);
+    servo4.write(minval);
+    servo1.write(maxval);   //Upward 2
+  delay(d);
+    servo8.write(maxval);    
+    servo5.write(minval);
+    servo2.write(maxval);   
+  delay(d);
+    servo9.write(maxval);     
+    servo6.write(minval);
+    servo3.write(maxval);
+  delay(d);
+    servo10.write(maxval);    
+    servo7.write(minval);
+    servo4.write(maxval);
+    servo1.write(minval);   //Downward 2
+  delay(d);
+    servo8.write(minval);
+    servo5.write(maxval);
+    servo2.write(minval);
+  delay(d);
+    servo9.write(minval);
+    servo6.write(maxval);
+    servo3.write(minval);
+  delay(d);
+    servo10.write(minval);  //Complete 1
+    servo7.write(maxval);
+    servo4.write(minval);
+    servo1.write(maxval);  //Upward 3
+  delay(d);
+    servo8.write(maxval);
+    servo5.write(minval);
+    servo2.write(maxval);
+  delay(d);
+    servo9.write(maxval);
+    servo6.write(minval);
+    servo3.write(maxval);
+  delay(d);
+    servo10.write(maxval);
+    servo7.write(minval);
+    servo4.write(maxval);
+    servo1.write(minval);  //Downward 3
+  delay(d);
+    servo8.write(minval);
+    servo5.write(maxval);
+    servo2.write(minval);
+  delay(d);
+    servo9.write(minval);
+    servo6.write(maxval);
+    servo3.write(minval);  
+  delay(d);
+    servo10.write(minval);   //Complete 2
+    servo7.write(maxval);
+    servo4.write(minval);
+  delay(d);
+    servo8.write(maxval);
+    servo5.write(minval);
+    servo1.write(maxval);
+  delay(d);
+    servo9.write(maxval);
+    servo6.write(minval);
+    servo2.write(maxval);
+  delay(d);
+    servo10.write(maxval);
+    servo7.write(minval);
+    servo3.write(maxval);
+  delay(d);
+    servo8.write(minval);
+    servo4.write(maxval);   //Downward 1
+    servo1.write(minval);
+  delay(d);
+    servo9.write(minval);
+    servo5.write(maxval);
+    servo2.write(minval);
+  delay(d);
+    servo10.write(minval);   //Complete 3
+    servo6.write(maxval);
+    servo3.write(minval);
+  delay(d);
+  } 
+  if(fd==0){
+    rstfront();
+  }
+}
+
+void backward(){
+
+  while(bk==1){
+    Blynk.run();
+
+    servo4.write(maxval);
+    servo7.write(minval);
+    servo10.write(maxval);   //Upward 2
+  delay(d);
+    servo3.write(maxval);    
+    servo6.write(minval);
+    servo9.write(maxval);   
+  delay(d);
+    servo2.write(maxval);     
+    servo5.write(minval);
+    servo8.write(maxval);
+  delay(d);
+    servo1.write(maxval);    
+    servo4.write(minval);
+    servo7.write(maxval);
+    servo10.write(minval);   //Downward 2
+  delay(d);
+    servo3.write(minval);
+    servo6.write(maxval);
+    servo9.write(minval);
+  delay(d);
+    servo2.write(minval);
+    servo5.write(maxval);
+    servo8.write(minval);
+  delay(d);
+    servo1.write(minval);  //Complete 1
+    servo4.write(maxval);
+    servo7.write(minval);
+    servo10.write(maxval);  //Upward 3
+  delay(d);
+    servo3.write(maxval);
+    servo6.write(minval);
+    servo9.write(maxval);
+  delay(d);
+    servo2.write(maxval);
+    servo5.write(minval);
+    servo8.write(maxval);
+  delay(d);
+    servo1.write(maxval);
+    servo4.write(minval);
+    servo7.write(maxval);
+    servo10.write(minval);  //Downward 3
+  delay(d);
+    servo3.write(minval);
+    servo6.write(maxval);
+    servo9.write(minval);
+  delay(d);
+    servo2.write(minval);
+    servo5.write(maxval);
+    servo8.write(minval);  
+  delay(d);
+    servo1.write(minval);   //Complete 2
+    servo4.write(maxval);
+    servo7.write(minval);
+  delay(d);
+    servo3.write(maxval);
+    servo6.write(minval);
+    servo10.write(maxval);
+  delay(d);
+    servo2.write(maxval);
+    servo5.write(minval);
+    servo9.write(maxval);
+  delay(d);
+    servo1.write(maxval);
+    servo4.write(minval);
+    servo8.write(maxval);
+  delay(d);
+    servo3.write(minval);
+    servo7.write(maxval);   //Downward 1
+    servo10.write(minval);
+  delay(d);
+    servo2.write(minval);
+    servo6.write(maxval);
+    servo9.write(minval);
+  delay(d);
+    servo1.write(minval);   //Complete 3
+    servo5.write(maxval);
+    servo8.write(minval);
+  delay(d);
+  }
+  if(bk==0){
+    rstback();
+  }
+}
+
+void right (){
+
+  while(rt==1){
+    Blynk.run();
+    servo4.write(maxval);
+    servo7.write(minval);
+    servo10.write(maxval);   //Upward 2
+  delay(d);
+    servo3.write(maxval);    
+    servo6.write(minval);
+    servo9.write(maxval);   
+  delay(d);
+    servo2.write(maxval);     
+    servo5.write(minval);
+    servo8.write(maxval);
+  delay(d);
+    servo1.write(maxval);    
+    servo4.write(minval);
+    servo7.write(maxval);
+    servo10.write(minval);   //Downward 2
+  delay(d);
+    servo3.write(minval);
+    servo6.write(maxval);
+    servo9.write(minval);
+  delay(d);
+    servo2.write(minval);
+    servo5.write(maxval);
+    servo8.write(minval);
+  delay(d);
+    servo1.write(minval);  //Complete 1
+    servo4.write(maxval);
+    servo7.write(minval);
+    servo10.write(maxval);  //Upward 3
+  delay(d);
+    servo3.write(maxval);
+    servo6.write(minval);
+    servo9.write(maxval);
+  delay(d);
+    servo2.write(maxval);
+    servo5.write(minval);
+    servo8.write(maxval);
+  delay(d);
+    servo1.write(maxval);
+    servo4.write(minval);
+    servo7.write(maxval);
+    servo10.write(minval);  //Downward 3
+  delay(d);
+    servo3.write(minval);
+    servo6.write(maxval);
+    servo9.write(minval);
+  delay(d);
+    servo2.write(minval);
+    servo5.write(maxval);
+    servo8.write(minval);  
+  delay(d);
+    servo1.write(minval);   //Complete 2
+    servo4.write(maxval);
+    servo7.write(minval);
+  delay(d);
+    servo3.write(maxval);
+    servo6.write(minval);
+    servo10.write(maxval);
+  delay(d);
+    servo2.write(maxval);
+    servo5.write(minval);
+    servo9.write(maxval);
+  delay(d);
+    servo1.write(maxval);
+    servo4.write(minval);
+    servo8.write(maxval);
+  delay(d);
+    servo3.write(minval);
+    servo7.write(maxval);   //Downward 1
+    servo10.write(minval);
+  delay(d);
+    servo2.write(minval);
+    servo6.write(maxval);
+    servo9.write(minval);
+  delay(d);
+    servo1.write(minval);   //Complete 3
+    servo5.write(maxval);
+    servo8.write(minval);   
+  delay(d);
+  }
+  if(lt==0){
+    rstback();
+  }
+}
+
+void left(){
+
+  while(lt==1){
+    Blynk.run();
+    servo7.write(maxval);
+    servo4.write(minval);
+    servo1.write(maxval);   //Upward 2
+  delay(d);
+    servo8.write(maxval);    
+    servo5.write(minval);
+    servo2.write(maxval);   
+  delay(d);
+    servo9.write(maxval);     
+    servo6.write(minval);
+    servo3.write(maxval);
+  delay(d);
+    servo10.write(maxval);    
+    servo7.write(minval);
+    servo4.write(maxval);
+    servo1.write(minval);   //Downward 2
+  delay(d);
+    servo8.write(minval);
+    servo5.write(maxval);
+    servo2.write(minval);
+  delay(d);
+    servo9.write(minval);
+    servo6.write(maxval);
+    servo3.write(minval);
+  delay(d);
+    servo10.write(minval);  //Complete 1
+    servo7.write(maxval);
+    servo4.write(minval);
+    servo1.write(maxval);  //Upward 3
+  delay(d);
+    servo8.write(maxval);
+    servo5.write(minval);
+    servo2.write(maxval);
+  delay(d);
+    servo9.write(maxval);
+    servo6.write(minval);
+    servo3.write(maxval);
+  delay(d);
+    servo10.write(maxval);
+    servo7.write(minval);
+    servo4.write(maxval);
+    servo1.write(minval);  //Downward 3
+  delay(d);
+    servo8.write(minval);
+    servo5.write(maxval);
+    servo2.write(minval);
+  delay(d);
+    servo9.write(minval);
+    servo6.write(maxval);
+    servo3.write(minval);  
+  delay(d);
+    servo10.write(minval);   //Complete 2
+    servo7.write(maxval);
+    servo4.write(minval);
+  delay(d);
+    servo8.write(maxval);
+    servo5.write(minval);
+    servo1.write(maxval);
+  delay(d);
+    servo9.write(maxval);
+    servo6.write(minval);
+    servo2.write(maxval);
+  delay(d);
+    servo10.write(maxval);
+    servo7.write(minval);
+    servo3.write(maxval);
+  delay(d);
+    servo8.write(minval);
+    servo4.write(maxval);   //Downward 1
+    servo1.write(minval);
+  delay(d);
+    servo9.write(minval);
+    servo5.write(maxval);
+    servo2.write(minval);
+  delay(d);
+    servo10.write(minval);   //Complete 3
+    servo6.write(maxval);
+    servo3.write(minval);
+  delay(d);
+  }
+  if(rt==0){
+    rstfront();
+  }
+}
+
+void init(){
+   servo1.write(maxval);
+  delay(d1);
+    servo2.write(maxval);
+  delay(d1);
+    servo3.write(maxval);
+  delay(d1);
+    servo4.write(maxval);
+    servo1.write(minval);
+  delay(d1);
+    servo5.write(maxval);
+    servo2.write(minval);
+  delay(d1);
+    servo6.write(maxval);
+    servo3.write(minval);
+  delay(d1);
+    servo7.write(maxval);
+    servo4.write(minval);
+  delay(d1);
+    servo8.write(maxval);
+    servo5.write(minval);
+  delay(d1);
+    servo9.write(maxval);
+    servo6.write(minval);
+  delay(d1);
+    servo10.write(maxval);
+    servo7.write(minval);
+  delay(d1);
+    servo8.write(minval);
+  delay(d1);
+    servo9.write(minval);
+  delay(d1);
+    servo10.write(minval);
+  delay(d1);
+    
+  delay(200);
+
+    servo10.write(maxval);
+  delay(d1);
+    servo9.write(maxval);
+  delay(d1);
+    servo8.write(maxval);
+  delay(d1);
+    servo7.write(maxval);
+  delay(d1);
+    servo6.write(maxval);
+    servo10.write(minval);
+  delay(d1);
+    servo5.write(maxval);
+    servo9.write(minval);
+  delay(d1);
+    servo4.write(maxval);
+    servo8.write(minval);
+  delay(d1);
+    servo3.write(maxval);
+    servo7.write(minval);
+  delay(d1);
+    servo2.write(maxval);
+    servo6.write(minval);
+  delay(d1);
+    servo1.write(maxval);
+    servo5.write(minval);
+  delay(d1);
+    servo4.write(minval);
+  delay(d1);
+    servo3.write(minval);
+  delay(d1);
+    servo2.write(minval);
+  delay(d1);
+    servo1.write(minval);
+  delay(d1);
+}
+
+BLYNK_WRITE(V0){
+  a=param.asInt();
+}
+
+BLYNK_WRITE(V1){
+  f=param.asInt();
+}
+
+BLYNK_WRITE(V2){
+  fd=param.asInt();
+}
+
+BLYNK_WRITE(V3){
+  bk=param.asInt();
+}
+
+BLYNK_WRITE(V4){
+  lt=param.asInt();
+}
+
+BLYNK_WRITE(V5){
+  rt=param.asInt();
+}
+BLYNK_WRITE(V6){
+  b=param.asInt();
+}
+void setup()
+{
+  Serial.begin(115200);
+
+  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
+
+  servo1.attach(servoPin[0]);
+  servo2.attach(servoPin[1]);
+  servo3.attach(servoPin[2]);
+  servo4.attach(servoPin[3]);
+  servo5.attach(servoPin[4]);
+  servo6.attach(servoPin[5]);
+  servo7.attach(servoPin[6]);
+  servo8.attach(servoPin[7]);
+  servo9.attach(servoPin[8]);
+  servo10.attach(servoPin[9]);
+
+  init();   
+
+}
+
+void loop()
+{
+  Blynk.run();
+  maxval=b+a;
+  minval=0+a;
+
+  if (f==1){
+    init();
+  }
+
+  if (fd==1){
+    forward();
+  }
+
+  if (bk==1){
+    backward();
+  }
+
+  if (rt==1){
+    right();
+  }
+
+  if (lt==1){
+    left();
+  }
+}
